@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import Book from './Book.js'
+import Book from './Book.js';
 
 class SearchBooks extends Component {
   state = {

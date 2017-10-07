@@ -52,14 +52,20 @@ class BooksApp extends React.Component {
           exact
           path="/"
           render={() => (
-            <ListBooks books={_.groupBy(this.state.books, 'shelf')} addBook={this.addBook} changeShelf={this.changeShelf} />
+            <ListBooks
+              books={_.groupBy(this.state.books, 'shelf')}
+              addBook={this.addBook}
+              changeShelf={this.changeShelf} />
           )}
           />
           <Route
             exact
             path="/search"
             render={() => (
-              <SearchBooks onBack={this.closeSearch} search={BooksAPI.search} changeShelf={this.changeShelf} />
+              <SearchBooks
+                onBack={this.closeSearch}
+                search={BooksAPI.search}
+                changeShelf={this.changeShelf} />
             )}
             />
       </div>

@@ -3,7 +3,22 @@ import {Link} from 'react-router-dom';
 import Book from './Book.js';
 import * as _ from 'lodash';
 
+let bookDragged;
+
 class ListBooks extends Component {
+  handleDrag = (event, book) => {
+    bookDragged = book;
+  }
+  handleDrop = (event) => {
+    event.preventDefault();
+    if (bookDragged) {
+      this.props.changeShelf(bookDragged, event.target.id);
+      bookDragged = undefined;
+    }
+  }
+  allowDrop = (event) => {
+    event.preventDefault();
+  }
   render() {
     let wantToRead = this.props.books.wantToRead ? this.props.books.wantToRead : [];
     let currentlyReading = this.props.books.currentlyReading ? this.props.books.currentlyReading : [];
@@ -20,10 +35,10 @@ class ListBooks extends Component {
           <div className="bookshelf">
             <h2 className="bookshelf-title">Currently Reading</h2>
             <div className="bookshelf-books">
-              <ol className="books-grid">
+              <ol className="books-grid" id="currentlyReading" onDrop={this.handleDrop} onDragOver={this.allowDrop}>
                 {
                   currentlyReading.map(book =>
-                    <li key={book.id}>
+                    <li key={book.id} draggable="true" onDragStart={() => this.handleDrag(event, book)}>
                       <Book book={book} changeShelf={this.props.changeShelf}/>
                     </li>
                   )
@@ -35,10 +50,10 @@ class ListBooks extends Component {
           <div className="bookshelf">
             <h2 className="bookshelf-title">Want to Read</h2>
             <div className="bookshelf-books">
-              <ol className="books-grid">
+              <ol className="books-grid" id="wantToRead" onDrop={this.handleDrop} onDragOver={this.allowDrop}>
                 {
                   wantToRead.map(book =>
-                    <li key={book.id}>
+                    <li key={book.id} draggable="true" onDragStart={() => this.handleDrag(event, book)}>
                       <Book book={book} changeShelf={this.props.changeShelf}/>
                     </li>
                   )
@@ -50,10 +65,10 @@ class ListBooks extends Component {
           <div className="bookshelf">
             <h2 className="bookshelf-title">Read</h2>
             <div className="bookshelf-books">
-              <ol className="books-grid">
+              <ol className="books-grid" id="read" onDrop={this.handleDrop} onDragOver={this.allowDrop}>
                 {
                   read.map(book =>
-                    <li key={book.id}>
+                    <li key={book.id} draggable="true" onDragStart={() => this.handleDrag(event, book)}>
                       <Book book={book} changeShelf={this.props.changeShelf}/>
                     </li>
                   )
